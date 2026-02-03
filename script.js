@@ -6,7 +6,7 @@ const tarefas = [
 ]
 
 const input = document.getElementById('inputTarefa');
-const btnAdicionar = document.getElementById('btnAdicionar');
+const botao = document.getElementById('btnAdicionar');
 const listaTarefas = document.getElementById('listaTarefas');
 
 function renderizarTarefas() {
@@ -19,7 +19,7 @@ function renderizarTarefas() {
     });
 }
 
-btnAdicionar.addEventListener('click', () => {
+botao.addEventListener('click', () => {
     const texto = input.value;
 
     if (texto === "") {
@@ -31,4 +31,11 @@ btnAdicionar.addEventListener('click', () => {
     input.value = "";
 
     renderizarTarefas();
+
+});
+
+input.addEventListener('keydown', function (event) {
+    if (event.key === "Enter") {
+        botao.click();
+    }
 });
