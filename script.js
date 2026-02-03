@@ -8,9 +8,16 @@ const tarefas = [
 const input = document.getElementById('inputTarefa');
 const botao = document.getElementById('btnAdicionar');
 const listaTarefas = document.getElementById('listaTarefas');
+const mensagemVazia = document.getElementById('mensagemVazia');
 
 function renderizarTarefas() {
     listaTarefas.innerHTML = "";
+
+    if (tarefas.length === 0) {
+        mensagemVazia.style.display = "block";
+    } else {
+        mensagemVazia.style.display = "none";
+    }
 
     tarefas.forEach((tarefa) => {
         const li = document.createElement('li');
