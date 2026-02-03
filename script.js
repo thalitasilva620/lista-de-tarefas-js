@@ -9,6 +9,8 @@ const input = document.getElementById('inputTarefa');
 const botao = document.getElementById('btnAdicionar');
 const listaTarefas = document.getElementById('listaTarefas');
 const mensagemVazia = document.getElementById('mensagemVazia');
+const contadorTarefas = document.getElementById("contadorTarefas");
+
 
 function renderizarTarefas() {
     listaTarefas.innerHTML = "";
@@ -18,6 +20,9 @@ function renderizarTarefas() {
     } else {
         mensagemVazia.style.display = "none";
     }
+
+    mensagemVazia.style.display = tarefas.length === 0 ? "block" : "none";
+    contadorTarefas.textContent = `Total de tarefas: ${tarefas.length}`;
 
     tarefas.forEach((tarefa) => {
         const li = document.createElement('li');
