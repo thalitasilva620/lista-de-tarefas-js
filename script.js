@@ -24,9 +24,19 @@ function renderizarTarefas() {
     mensagemVazia.style.display = tarefas.length === 0 ? "block" : "none";
     contadorTarefas.textContent = `Total de tarefas: ${tarefas.length}`;
 
-    tarefas.forEach((tarefa) => {
+    tarefas.forEach(function (tarefa, index) {
         const li = document.createElement('li');
         li.textContent = tarefa;
+
+        const botaoRemover = document.createElement("button");
+        botaoRemover.textContent = "";
+
+        botaoRemover.addEventListener('click', function () {
+            tarefas.splice(index, 1);
+            renderizarTarefas();
+        });
+
+        li.appendChild(botaoRemover);
         listaTarefas.appendChild(li);
     });
 }
