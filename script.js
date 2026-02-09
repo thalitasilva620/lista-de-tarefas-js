@@ -22,17 +22,33 @@ function renderizarTarefas() {
     }
 
     mensagemVazia.style.display = tarefas.length === 0 ? "block" : "none";
-    contadorTarefas.textContent = `Total de tarefas: ${tarefas.length}`;
+
+    const total = tarefas.length;
+    const concluidas = tarefas.filter(tarefa => tarefa.concluida).length;
+
+    contadorTarefas.textContent = `Total: ${total} | Concluídas: ${concluidas}`;
 
     tarefas.forEach(function (tarefa, index) {
         const li = document.createElement('li');
-        li.textContent = tarefa;
+        li.textContent = tarefa.texto;
+
+        if (tarefa.concluida) {
+            li.classList.add("concluída");
+        }
+
+        li.addEventListener("click", function () {
+            tarefa.concluida = !tarefa.concluida;
+            salvarTarefas();
+            renderizarTarefas();
+        })
 
         const botaoRemover = document.createElement("button");
-        botaoRemover.textContent = "";
+        botaoRemover.textContent = "❌";
 
-        botaoRemover.addEventListener('click', function () {
+        botaoRemover.addEventListener('click', function (event) {
+            event.stopPropagation();
             tarefas.splice(index, 1);
+            salvarTarefas();
             renderizarTarefas();
         });
 
