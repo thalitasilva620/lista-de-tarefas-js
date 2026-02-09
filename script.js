@@ -53,11 +53,14 @@ function renderizarTarefas() {
         botaoRemover.classList.add("botao-remover");
         botaoRemover.setAttribute("aria-label", "Remover tarefa");
 
-        botaoRemover.addEventListener('click', function (event) {
-            event.stopPropagation();
-            tarefas.splice(index, 1);
-            salvarTarefas();
-            renderizarTarefas();
+        botaoRemover.addEventListener('click', () => {
+            li.classList.add("tarefa-removendo");
+
+            setTimeout(() => {
+                tarefas.splice(index, 1);
+                salvarTarefas();
+                renderizarTarefas();
+            }, 200);
         });
 
         li.appendChild(botaoRemover);
