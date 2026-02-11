@@ -5,6 +5,10 @@ const botao = document.getElementById('btnAdicionar');
 const listaTarefas = document.getElementById('listaTarefas');
 const mensagemVazia = document.getElementById('mensagemVazia');
 const contadorTarefas = document.getElementById("contadorTarefas");
+const botaoAdicionar = document.getElementById("botao-adicionar");
+
+console.log(botaoAdicionar);
+
 
 function salvarTarefas() {
   localStorage.setItem("tarefas", JSON.stringify(tarefas));
@@ -31,25 +35,27 @@ function renderizarTarefas() {
 
     tarefas.forEach(function (tarefa, index) {
         const li = document.createElement('li');
+        li.classList.add("tarefa");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = tarefa.concluida;
+
+        checkbox.addEventListener("change", () => {
+        tarefas[index].concluida = checkbox.checked;
+        salvarTarefas();
+        renderizarTarefas();
+        });
 
         const spanTexto = document.createElement("span");
         spanTexto.textContent = tarefa.texto;
-
-        li.appendChild(spanTexto);
+        spanTexto.classList.add("texto-tarefa");
 
         if (tarefa.concluida) {
-            li.classList.add("concluída");
+            li.classList.add("concluida");
         }
 
-        li.addEventListener("click", function () {
-            tarefa.concluida = !tarefa.concluida;
-            salvarTarefas();
-            renderizarTarefas();
-        })
-
         const botaoRemover = document.createElement("button");
-        botaoRemover.textContent = "";
-
         botaoRemover.classList.add("botao-remover");
         botaoRemover.setAttribute("aria-label", "Remover tarefa");
 
@@ -62,27 +68,32 @@ function renderizarTarefas() {
                 renderizarTarefas();
             }, 200);
         });
-
+        
+        li.appendChild(checkbox);
+        li.appendChild(spanTexto);
         li.appendChild(botaoRemover);
         listaTarefas.appendChild(li);
     });
 }
 
-botao.addEventListener('click', () => {
-    const texto = input.value;
+botaoAdicionar.addEventListener('click', () => {
+    const textoDaTarefa = input.value.trim();
 
-    if (texto === "") return;
+    if (textoDaTarefa === "") return;
 
-    tarefas.push({texto, concluida: false});
-    input.value = "";
+    tarefas.push({
+        texto: textoDaTarefa,
+        concluida: false
+    });
+
     salvarTarefas();
     renderizarTarefas();
-
+    input.value = "";
 });
 
 input.addEventListener('keydown', function (event) {
     if (event.key === "Enter") {
-        botao.click();
+        botaoAdicionar.click();
     }
 });
 
